@@ -10,7 +10,7 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./registration.component.css'],
 })
 export class RegistrationComponent {
-  errors: string = 'Hellow';
+  errors: string = 'Password MisMatch';
   constructor(private storageService: StorageService) {}
   regForm = new FormGroup({
     userType: new FormControl('', [Validators.required]),
@@ -59,7 +59,8 @@ export class RegistrationComponent {
   }
 
   registerUser(): void {
-    let tempReg: User = { ...this.regForm.value, id: 2 } as User;
+    let users: User[] = this.storageService.getAllUsers();
+    let tempReg: User = { ...this.regForm.value, id: users.length + 1 } as User;
     this.storageService.registerUser(tempReg);
   }
 }
