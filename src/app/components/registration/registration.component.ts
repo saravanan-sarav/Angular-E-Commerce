@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -11,7 +12,7 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class RegistrationComponent {
   errors: string = 'Password MisMatch';
-  constructor(private storageService: StorageService) {}
+  constructor(private storageService: StorageService, private router: Router) {}
   regForm = new FormGroup({
     userType: new FormControl('', [Validators.required]),
     firstName: new FormControl('', [Validators.required]),
@@ -31,7 +32,7 @@ export class RegistrationComponent {
     ]),
   });
   onSubmit() {
-    console.log(this.regForm.value);
+    // console.log(this.regForm.value);
   }
 
   get firstName() {
@@ -61,6 +62,7 @@ export class RegistrationComponent {
   registerUser(): void {
     let users: User[] = this.storageService.getAllUsers();
     let tempReg: User = { ...this.regForm.value, id: users.length + 1 } as User;
+    this.router.navigate(['/'], { replaceUrl: true });
     this.storageService.registerUser(tempReg);
   }
 }

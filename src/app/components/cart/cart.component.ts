@@ -41,6 +41,7 @@ export class CartComponent {
           tempCart.push(user);
         } else {
           this.orders.push(user);
+          this.storageService.loadOrders(this.orders);
         }
       }
       carts = tempCart;
